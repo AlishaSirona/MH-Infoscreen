@@ -1,0 +1,19 @@
+﻿@page "/"
+
+<PageTitle>Index</PageTitle>
+
+@if (images == null)
+{
+    <p>Loading ...</p>
+}
+else
+{
+    <MudCarousel Class="mud-width-full" Style="height: 100%" ShowArrows="false" ShowBullets="false" AutoCycle="true" AutoCycleTime="@cycleTimer" TData="object">
+        @foreach (var img in images)
+        {
+            <MudCarouselItem Transition="Transition.Fade">
+                <img src="@img.Substring(img.IndexOf('\\'))" />
+            </MudCarouselItem>
+        }
+    </MudCarousel>
+}

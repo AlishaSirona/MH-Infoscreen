@@ -1,6 +1,7 @@
 ﻿@page "/"
 
 <PageTitle>Index</PageTitle>
+<@test/>
 
 @if (images == null)
 {
@@ -8,7 +9,7 @@
 }
 else
 {
-    <MudCarousel Class="mud-width-full" Style="height: 100%" ShowArrows="false" ShowBullets="false" AutoCycle="true" AutoCycleTime="@cycleTimer" TData="object">
+    <MudCarousel @ref="mudCarousel" Class="mud-width-full" Style="height: 100%" ShowArrows="false" ShowBullets="false" AutoCycle="true" AutoCycleTime="@cycleTimer" TData="object" SelectedIndexChanged="@(args => CarouselChanged(args))">
         @foreach (var img in images)
         {
             <MudCarouselItem Transition="Transition.Fade">
@@ -17,3 +18,4 @@ else
         }
     </MudCarousel>
 }
+

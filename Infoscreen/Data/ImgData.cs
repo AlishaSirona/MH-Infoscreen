@@ -10,7 +10,7 @@ public class ImgData
         FrontList = new List<Images>();
         BackList = new List<Images>();
 
-        int pos = 0;
+        uint ind = 0;
 
         var files = Directory.GetFiles(@"wwwroot\img");
 
@@ -19,11 +19,11 @@ public class ImgData
             var data = new Images()
             {
                 FilePath = item,
-                Position = pos,
+                Index = ind,
             };
             FrontList.Add(data);
             BackList.Add(data);
-            pos++;
+            ind++;
         }
     }
 }

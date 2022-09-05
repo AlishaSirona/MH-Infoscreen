@@ -20,25 +20,26 @@ namespace Infoscreen.Pages;
 
 public partial class Index
 {
-    TimeSpan cycleTimer = new TimeSpan(0, 0, 2);
+    uint cntFixedPages = 12;
+
+    TimeSpan cycleTimer = new TimeSpan(0, 0, 15);
     MudCarousel<object>? mudCarousel;
 
     void CarouselChanged(int index)
     {
         if (index < ImgData.FrontList.Count)
         {
-            cycleTimer = new TimeSpan(0, 0, 3);
+            cycleTimer = ImgData.FrontList.Where(item => item.Index == index).First().Duration;
         }
-        else if (index >= ImgData.FrontList.Count + 12)
+        else if (index >= ImgData.FrontList.Count + cntFixedPages)
         {
-            cycleTimer = new TimeSpan(0, 0, 7);
+            cycleTimer = ImgData.BackList.Where(item => item.Index == index - ImgData.FrontList.Count - cntFixedPages).First().Duration;
         }
         else
         {
             cycleTimer = new TimeSpan(0, 0, 1);
         }
 
-        Console.WriteLine($"Index: {index}");
-        Console.WriteLine(mudCarousel!.Items.Count);
+        Console.WriteLine($"Timer: {cycleTimer.TotalSeconds}");
     }
 }

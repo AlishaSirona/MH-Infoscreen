@@ -1,20 +1,15 @@
 ﻿@page "/"
+@inject ImgData ImgData
 
 <PageTitle>Index</PageTitle>
 
-@if (images == null)
-{
-    <p>Loading ...</p>
-}
-else
-{
-    <MudCarousel @ref="mudCarousel" Class="mud-width-full" Style="height: 100%" ShowArrows="false" ShowBullets="false" AutoCycle="true" AutoCycleTime="@cycleTimer" TData="object" SelectedIndexChanged="@(args => CarouselChanged(args))">
-        @foreach (var img in images)
-        {
-            <MudCarouselItem Transition="Transition.Fade">
-                <img src="@img.Substring(img.IndexOf('\\'))" />
-            </MudCarouselItem>
-        }
-    </MudCarousel>
-}
+
+<MudCarousel @ref="mudCarousel" Class="mud-width-full" Style="height: 100%" ShowArrows="false" ShowBullets="false" AutoCycle="true" AutoCycleTime="@cycleTimer" TData="object" SelectedIndexChanged="@(args => CarouselChanged(args))">
+    <FrontCarousel />
+
+    <ProductionCarousel />
+
+    <BackCarousel />
+</MudCarousel>
+
 

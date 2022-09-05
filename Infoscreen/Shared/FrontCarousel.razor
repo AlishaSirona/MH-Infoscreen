@@ -1,0 +1,8 @@
+﻿@inject ImgData ImgData
+
+@foreach (var img in ImgData.FrontList.OrderBy(item => item.Position))
+{
+    <MudCarouselItem Transition="Transition.Fade">
+        <img src="@img.InternFilePath" />
+    </MudCarouselItem>
+}

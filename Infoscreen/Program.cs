@@ -1,3 +1,4 @@
+using Infoscreen.Data;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using MudBlazor.Services;
@@ -15,6 +16,8 @@ namespace Infoscreen
             builder.Services.AddServerSideBlazor();
 
             builder.Services.AddMudServices();
+
+            builder.Services.AddSingleton<ImgData>();
 
             var app = builder.Build();
 

@@ -20,20 +20,25 @@ namespace Infoscreen.Pages;
 
 public partial class Index
 {
-    string[]? images;
     TimeSpan cycleTimer = new TimeSpan(0, 0, 2);
     MudCarousel<object>? mudCarousel;
 
-    protected override void OnInitialized()
-    {
-        images = Directory.GetFiles(@"wwwroot\img");
-
-    }
-
     void CarouselChanged(int index)
     {
+        if (index < ImgData.FrontList.Count)
+        {
+            cycleTimer = new TimeSpan(0, 0, 3);
+        }
+        else if (index >= ImgData.FrontList.Count + 12)
+        {
+            cycleTimer = new TimeSpan(0, 0, 7);
+        }
+        else
+        {
+            cycleTimer = new TimeSpan(0, 0, 1);
+        }
+
         Console.WriteLine($"Index: {index}");
         Console.WriteLine(mudCarousel!.Items.Count);
     }
-
 }

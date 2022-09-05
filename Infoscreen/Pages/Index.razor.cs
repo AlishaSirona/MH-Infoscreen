@@ -25,6 +25,11 @@ public partial class Index
     TimeSpan cycleTimer = new TimeSpan(0, 0, 15);
     MudCarousel<object>? mudCarousel;
 
+    protected override void OnInitialized()
+    {
+        Console.WriteLine(Path.Combine(Environment.WebRootPath, "img"));
+    }
+
     void CarouselChanged(int index)
     {
         if (index < ImgData.FrontList.Count)

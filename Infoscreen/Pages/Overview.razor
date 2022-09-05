@@ -1,6 +1,31 @@
 ﻿@page "/overview"
 @inject ImgData ImgData
+@inject IWebHostEnvironment Environment
 
 <h3>Overview</h3>
 
 
+<p>
+    <InputFile OnChange="@LoadFiles" />
+</p>
+
+@if (isLoading)
+{
+    <p>Uploading...</p>
+}
+else
+{
+    <ul>
+        @foreach (var file in loadedFiles)
+        {
+            <li>
+                <ul>
+                    <li>Name: @file.Name</li>
+                    <li>Last modified: @file.LastModified.ToString()</li>
+                    <li>Size (bytes): @file.Size</li>
+                    <li>Content type: @file.ContentType</li>
+                </ul>
+            </li>
+        }
+    </ul>
+}

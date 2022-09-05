@@ -21,9 +21,38 @@ using Infoscreen.Pages.ProductionPages.UA;
 using Infoscreen.Pages.ProductionPages.VS;
 using Infoscreen.Pages.ProductionPages.WW;
 using Infoscreen.Data;
+using Microsoft.Extensions.Logging;
 
 namespace Infoscreen.Pages;
 
 public partial class Overview
 {
+    private List<IBrowserFile> loadedFiles = new();
+    private bool isLoading;
+
+    private async Task LoadFiles(InputFileChangeEventArgs e)
+    {
+        isLoading = true;
+        loadedFiles.Clear();
+
+        foreach (var file in e.GetMultipleFiles(1))
+        {
+            try
+            {
+                loadedFiles.Add(file);
+
+                var path = Path.Combine(Environment.WebRootPath, "img", file.Name);
+                Console.WriteLine($"Path: {path}");
+
+                await using FileStream fs = new(path, FileMode.Create);
+                await file.OpenReadStream().CopyToAsync(fs);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error\nMessage: {ex.Message}");
+            }
+        }
+
+        isLoading = false;
+    }
 }

@@ -35,6 +35,8 @@ public partial class Overview
         isLoading = true;
         loadedFiles.Clear();
 
+        Console.WriteLine(ImgData.FrontList.Count);
+
         foreach (var file in e.GetMultipleFiles(1))
         {
             try
@@ -54,5 +56,9 @@ public partial class Overview
         }
 
         isLoading = false;
+
+        ImgData.Refresh();
+        Console.WriteLine(ImgData.FrontList.Count);
+
     }
 }

@@ -25,4 +25,8 @@
     <Folder Include="wwwroot\img\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\DbPageLibrary\DbInfoscreenLibrary.csproj" />
+  </ItemGroup>
+
 </Project>

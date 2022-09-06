@@ -6,6 +6,9 @@ public class SinglePage
     public uint Position { get; set; }
     public string FilePath { get; set; } = string.Empty;
     public TimeSpan Duration { get; set; } = new TimeSpan(0, 0, 15);
+    public DateTime StartDate { get; set; } = DateTime.Now.Date;
+    public DateTime EndDate { get; set; } = DateTime.Now.AddDays(10).Date;
+
 
 
     public string InternFilePath => IsImage ? $"\\img\\{FilePath.Substring(FilePath.LastIndexOf('\\'))}" : FilePath;

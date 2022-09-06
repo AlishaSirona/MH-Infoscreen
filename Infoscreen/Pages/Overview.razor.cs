@@ -39,15 +39,36 @@ public partial class Overview
         {
             try
             {
-                loadedFiles.Add(file);
+                if (file.ContentType.Remove(file.ContentType.LastIndexOf('/')).ToLower() == "image")
+                {
+                    loadedFiles.Add(file);
 
-                var path = Path.Combine(Environment.WebRootPath, "img", file.Name);
-                Console.WriteLine($"Path: {path}");
+                    Random rnd = new Random();
 
-                await using FileStream fs = new(path, FileMode.Create);
-                await file.OpenReadStream().CopyToAsync(fs);
+                    string fileName = file.Name
+                        .Remove(file.Name.LastIndexOf('.'))
+                        .Replace('_', '-')
+                        .Replace('.', '-')
+                        .ToLower();
 
-                ScreenData.Pages.Add(new SinglePage() { FilePath = path, IsImage = true, Position = 0 });
+                    string fileType = file.ContentType
+                        .Substring(file.ContentType.LastIndexOf('/') + 1)
+                        .ToLower();
+
+                    string secureFileName = $"{rnd.Next(10000000, 99999999)}_{fileName}.{fileType}";
+
+
+                    var path = Path.Combine(Environment.WebRootPath, "img", secureFileName);
+
+                    await using FileStream fs = new(path, FileMode.Create);
+                    await file.OpenReadStream().CopyToAsync(fs);
+
+                    ScreenData.Pages.Add(new SinglePage() { FilePath = path, IsImage = true, Position = 0 });
+                }
+                else
+                {
+                    Console.WriteLine("Kein Bild!!!");
+                }
             }
             catch (Exception ex)
             {

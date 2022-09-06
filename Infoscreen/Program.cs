@@ -1,3 +1,4 @@
+using DbInfoscreenLibrary;
 using Infoscreen.Data;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
@@ -14,6 +15,8 @@ namespace Infoscreen
             // Add services to the container.
             builder.Services.AddRazorPages();
             builder.Services.AddServerSideBlazor();
+
+            builder.Services.AddDbContextFactory<DbInfoscreenContext>();
 
             builder.Services.AddMudServices();
 

@@ -22,6 +22,7 @@ using Infoscreen.Pages.ProductionPages.VS;
 using Infoscreen.Pages.ProductionPages.WW;
 using Infoscreen.Data;
 using Microsoft.Extensions.Logging;
+using DbInfoscreenLibrary;
 
 namespace Infoscreen.Pages;
 
@@ -29,6 +30,12 @@ public partial class Overview
 {
     private List<IBrowserFile> loadedFiles = new();
     private bool isLoading;
+
+    uint position;
+    uint duration;
+    DateTime startDate;
+    DateTime endDate;
+
 
     private async Task LoadFiles(InputFileChangeEventArgs e)
     {
@@ -62,6 +69,7 @@ public partial class Overview
 
                     await using FileStream fs = new(path, FileMode.Create);
                     await file.OpenReadStream().CopyToAsync(fs);
+                    await PostToDatabase(secureFileName);
 
                     ScreenData.Pages.Add(new SinglePage() { FilePath = path, IsImage = true, Position = 0 });
                 }
@@ -77,7 +85,30 @@ public partial class Overview
         }
 
         isLoading = false;
+    }
 
+    async Task PostToDatabase(string fileName)
+    {
+        try
+        {
+            using var context = ContextFactory.CreateDbContext();
 
+            var data = new DbInfoscreenLibrary.Pages()
+            {
+                FileName = fileName,
+                Duration = duration,
+                Position = position,
+                StartDate = startDate,
+                EndDate = endDate
+            };
+
+            context.Pages.Add(data);
+
+            await context.SaveChangesAsync();
+        }
+        catch (Exception ex)
+        {
+
+        }
     }
 }

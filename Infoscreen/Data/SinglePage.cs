@@ -10,7 +10,7 @@ public class SinglePage
     public DateTime EndDate { get; set; } = DateTime.Now.AddDays(10).Date;
 
 
-
+    public string InternFileName => IsImage ? FilePath.Substring(FilePath.LastIndexOf('\\') + 1) : FilePath;
     public string InternFilePath => IsImage ? $"\\img\\{FilePath.Substring(FilePath.LastIndexOf('\\'))}" : FilePath;
     public string InternPosition => $"{Position};{InternFilePath}";
 }

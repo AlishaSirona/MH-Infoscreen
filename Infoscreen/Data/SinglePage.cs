@@ -8,6 +8,6 @@ public class SinglePage
     public TimeSpan Duration { get; set; } = new TimeSpan(0, 0, 15);
 
 
-    public string InternFilePath => IsImage ? FilePath.Substring(FilePath.IndexOf('\\')) : FilePath;
+    public string InternFilePath => IsImage ? $"\\img\\{FilePath.Substring(FilePath.LastIndexOf('\\'))}" : FilePath;
     public string InternPosition => $"{Position};{InternFilePath}";
 }

@@ -35,8 +35,6 @@ public partial class Overview
         isLoading = true;
         loadedFiles.Clear();
 
-        Console.WriteLine(ImgData.FrontList.Count);
-
         foreach (var file in e.GetMultipleFiles(1))
         {
             try
@@ -48,6 +46,8 @@ public partial class Overview
 
                 await using FileStream fs = new(path, FileMode.Create);
                 await file.OpenReadStream().CopyToAsync(fs);
+
+                ScreenData.Pages.Add(new SinglePage() { FilePath = path, IsImage = true, Position = 0 });
             }
             catch (Exception ex)
             {
@@ -57,8 +57,6 @@ public partial class Overview
 
         isLoading = false;
 
-        ImgData.Refresh();
-        Console.WriteLine(ImgData.FrontList.Count);
 
     }
 }

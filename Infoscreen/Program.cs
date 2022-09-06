@@ -17,7 +17,7 @@ namespace Infoscreen
 
             builder.Services.AddMudServices();
 
-            builder.Services.AddSingleton<ImgData>();
+            builder.Services.AddSingleton<ScreenData>();
 
             var app = builder.Build();
 

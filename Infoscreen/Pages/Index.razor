@@ -1,17 +1,64 @@
 ﻿@page "/"
-@inject ImgData ImgData
+@inject ScreenData ScreenData
 @inject IWebHostEnvironment Environment
-
 
 <PageTitle>Infoscreen</PageTitle>
 
-
-<MudCarousel @ref="mudCarousel" Class="mud-width-full" Style="height: 100%" ShowArrows="false" ShowBullets="false" AutoCycle="true" AutoCycleTime="@cycleTimer" TData="object" SelectedIndexChanged="@(args => CarouselChanged(args))">
-    <FrontCarousel />
-
-    <ProductionCarousel />
-
-    <BackCarousel />
-</MudCarousel>
-
+@if (mudItems == null)
+{
+    <p>Loading ...</p>
+}
+else
+{
+    <MudCarousel @ref="mudCarousel" ItemsSource="mudItems.OrderBy(item => item.Position)" Class="mud-width-full" Style="height: 100%" ShowArrows="true" ShowBullets="true" AutoCycle="false" AutoCycleTime="@cycleTimer" TData="SinglePage" SelectedIndexChanged="@(args => CarouselChanged(args))">
+        <ItemTemplate>
+            @if (context.IsImage)
+            {
+                <img src="@context.InternFilePath" />
+            }
+            else
+            {
+                @switch (context.InternPosition.Substring(context.InternPosition.IndexOf(';') + 1))
+                {
+                    case "Accidents":
+                        <Accidents />
+                        break;
+                    case "STW1":
+                        <STW1 />
+                        break;
+                    case "STW2":
+                        <STW2 />
+                        break;
+                    case "STW3":
+                        <STW3 />
+                        break;
+                    case "WW1":
+                        <WW1 />
+                        break;
+                    case "WW2":
+                        <WW2 />
+                        break;
+                    case "UA1":
+                        <UA1 />
+                        break;
+                    case "UA2":
+                        <UA2 />
+                        break;
+                    case "VS1":
+                        <VS1 />
+                        break;
+                    case "Companies":
+                        <Companies />
+                        break;
+                    case "Visitors":
+                        <Visitors />
+                        break;
+                    case "Weather":
+                        <Weather />
+                        break;
+                }
+            }
+        </ItemTemplate>
+    </MudCarousel>
+}
 

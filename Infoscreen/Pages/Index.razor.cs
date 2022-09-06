@@ -15,36 +15,44 @@ using Infoscreen;
 using Infoscreen.Shared;
 using MudBlazor;
 using Microsoft.AspNetCore.Mvc.Razor;
+using Infoscreen.Data;
 
 namespace Infoscreen.Pages;
 
 public partial class Index
 {
-    uint cntFixedPages = 12;
-
     TimeSpan cycleTimer = new TimeSpan(0, 0, 15);
-    MudCarousel<object>? mudCarousel;
+    MudCarousel<SinglePage>? mudCarousel;
+
+    List<SinglePage>? mudItems;
+
 
     protected override void OnInitialized()
     {
-        Console.WriteLine(Path.Combine(Environment.WebRootPath, "img"));
+        mudItems = ScreenData.Pages;
+
+        foreach (var item in mudItems.OrderBy(item => item.Position))
+        {
+            Console.WriteLine(item.InternPosition);
+        }
     }
 
     void CarouselChanged(int index)
     {
-        if (index < ImgData.FrontList.Count)
-        {
-            cycleTimer = ImgData.FrontList.Where(item => item.Index == index).First().Duration;
-        }
-        else if (index >= ImgData.FrontList.Count + cntFixedPages)
-        {
-            cycleTimer = ImgData.BackList.Where(item => item.Index == index - ImgData.FrontList.Count - cntFixedPages).First().Duration;
-        }
-        else
-        {
-            cycleTimer = new TimeSpan(0, 0, 1);
-        }
-
-        Console.WriteLine($"Timer: {cycleTimer.TotalSeconds}");
+        //if (index < ImgData.FrontList.Count)
+        //{
+        //    cycleTimer = ImgData.FrontList.Where(item => item.Index == index).First().Duration;
+        //    Console.WriteLine($"Item Front: {ImgData.FrontList.Where(item => item.Index == index).First().InternFilePath}");
+        //}
+        //else if (index >= ImgData.FrontList.Count + cntFixedPages)
+        //{
+        //    cycleTimer = ImgData.BackList.Where(item => item.Index == index - ImgData.FrontList.Count - cntFixedPages).First().Duration;
+        //    Console.WriteLine($"Item Back: {ImgData.BackList.Where(item => item.Index == index - ImgData.FrontList.Count - cntFixedPages).First().InternFilePath}");
+        //}
+        //else
+        //{
+        //    cycleTimer = new TimeSpan(0, 0, 1);
+        //    Console.WriteLine($"Item Site");
+        //}
     }
 }

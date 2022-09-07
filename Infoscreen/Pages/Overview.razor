@@ -3,8 +3,11 @@
 @inject ScreenData ScreenData
 @inject IDbContextFactory<DbInfoscreenContext> ContextFactory
 @inject IWebHostEnvironment Environment
+@inject Radzen.DialogService DialogService
 
 <h3>Overview</h3>
+
+<RadzenButton Text="Upload" Click="@OpenUploadFile" />
 
 
 <p>

@@ -111,4 +111,13 @@ public partial class Overview
 
         }
     }
+
+    async Task OpenUploadFile()
+    {
+        await DialogService.OpenAsync<FileUpload>("File-Upload",
+            options: new Radzen.DialogOptions() { Resizable = true, CloseDialogOnOverlayClick = true});
+    }
+
+
+
 }

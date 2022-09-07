@@ -1,0 +1,31 @@
+﻿@inject IDbContextFactory<DbInfoscreenContext> ContextFactory
+@inject IWebHostEnvironment Environment
+@inject Radzen.DialogService DialogService
+@inject Radzen.NotificationService NotificationService
+@implements IDisposable
+
+
+<RadzenTemplateForm TItem="FileData" Data="@fileData" Submit="@OnSubmit">
+    <RadzenLabel Text="Von:" For="startPicker" Style="margin-left: 8px; vertical-align: middle" class="mt-2" />
+    <RadzenDatePicker Name="startPicker" TValue="DateTime" DateFormat="dd.MM.yyyy HH:mm" ShowTime="true" class="w-100" @bind-Value="fileData.StartDate"/>
+
+    <RadzenLabel Text="Bis:" For="endPicker" Style="margin-left: 8px; vertical-align: middle" class="mt-2" />
+    <RadzenDatePicker Name="endPicker" TValue="DateTime?" DateFormat="dd.MM.yyyy HH:mm" ShowTime="true" class="w-100" @bind-Value="fileData.EndDate" />
+    <RadzenRequiredValidator Component="endPicker" Popup="true" Style="z-index:50" Text="Eine Endzeit muss gegeben sein!" />
+
+    <RadzenLabel Text="Anzeigedauer in Sekunden:" For="duration" Style="margin-left: 8px; vertical-align: middle" class="mt-2" />
+    <RadzenNumeric Name="duration" TValue="uint" Min="0" Max="181" ShowUpDown="false" class="w-100" @bind-Value="fileData.Duration" />
+
+    <RadzenLabel Text="Reihenfolge:" For="order" Style="margin-left: 8px; vertical-align: middle" class="mt-2" />
+    <RadzenNumeric Name="order" TValue="uint" Min="0" Max="999" ShowUpDown="false" class="w-100" @bind-Value="fileData.Order" />
+
+    <p style="margin-left: 10px; color: dimgray">
+        Die Reihenfolge wird über eine Nummer bestimmt (0 - 999).<br />
+        Haben mehere Elemente die gleiche Nummer entscheidet der Dateiname die Reihenfolge. <br />
+        Die Nummerierung kann später immer geändert werden.
+    </p>
+
+    <InputFile OnChange="@(args => fileData.BrowserFile = args.File)" class="mt-3"/>
+
+    <RadzenButton ButtonType="Radzen.ButtonType.Submit" Text="Hochladen" class="w-100 mt-4"/>
+</RadzenTemplateForm>

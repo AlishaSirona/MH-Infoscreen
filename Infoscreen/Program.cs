@@ -3,6 +3,7 @@ using Infoscreen.Data;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using MudBlazor.Services;
+using Radzen;
 
 namespace Infoscreen
 {
@@ -19,6 +20,8 @@ namespace Infoscreen
             builder.Services.AddDbContextFactory<DbInfoscreenContext>();
 
             builder.Services.AddMudServices();
+            builder.Services.AddScoped<Radzen.DialogService>();
+            builder.Services.AddScoped<Radzen.NotificationService>();
 
             builder.Services.AddSingleton<ScreenData>();
 

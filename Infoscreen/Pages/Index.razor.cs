@@ -30,11 +30,6 @@ public partial class Index
     protected override void OnInitialized()
     {
         mudItems = ScreenData.Pages;
-
-        foreach (var item in mudItems.OrderBy(item => item.Position))
-        {
-            Console.WriteLine(item.InternPosition);
-        }
     }
 
     void CarouselChanged(int index)

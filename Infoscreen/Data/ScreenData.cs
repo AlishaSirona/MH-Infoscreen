@@ -1,4 +1,5 @@
-﻿using static MudBlazor.Colors;
+﻿using Microsoft.EntityFrameworkCore;
+using static MudBlazor.Colors;
 
 namespace Infoscreen.Data;
 
@@ -10,33 +11,46 @@ public class ScreenData
     {
         Pages = new List<SinglePage>()
         {
-            new SinglePage() { FilePath = "Accidents",  Position = 500},
-            new SinglePage() { FilePath = "STW1",       Position = 501},
-            new SinglePage() { FilePath = "STW2",       Position = 502},
-            new SinglePage() { FilePath = "STW3",       Position = 503},
-            new SinglePage() { FilePath = "WW1",        Position = 504},
-            new SinglePage() { FilePath = "WW2",        Position = 505},
-            new SinglePage() { FilePath = "UA1",        Position = 506},
-            new SinglePage() { FilePath = "UA2",        Position = 507},
-            new SinglePage() { FilePath = "VS1",        Position = 508},
-            new SinglePage() { FilePath = "Companies",  Position = 509},
-            new SinglePage() { FilePath = "Visitors",   Position = 510},
-            new SinglePage() { FilePath = "Weather",    Position = 511},
+            new SinglePage() { FilePath = "Accidents",  Order = 500},
+            new SinglePage() { FilePath = "STW1",       Order = 501},
+            new SinglePage() { FilePath = "STW2",       Order = 502},
+            new SinglePage() { FilePath = "STW3",       Order = 503},
+            new SinglePage() { FilePath = "WW1",        Order = 504},
+            new SinglePage() { FilePath = "WW2",        Order = 505},
+            new SinglePage() { FilePath = "UA1",        Order = 506},
+            new SinglePage() { FilePath = "UA2",        Order = 507},
+            new SinglePage() { FilePath = "VS1",        Order = 508},
+            new SinglePage() { FilePath = "Companies",  Order = 509},
+            new SinglePage() { FilePath = "Visitors",   Order = 510},
+            new SinglePage() { FilePath = "Weather",    Order = 511},
         };
 
         var files = Directory.GetFiles(@"wwwroot\img");
 
         Random rnd = new();
-        foreach (var item in files)
-        {
-            var data = new SinglePage()
-            {
-                FilePath = item,
-                Position = (uint)rnd.Next(10, 1000),
-                IsImage = true,
-            };
 
-            Pages.Add(data);
+        using var context = new DbInfoscreenLibrary.DbInfoscreenContext();
+
+        var dbData = context.Pages
+            .Where(item => item.StartDate <= DateTime.Now && item.EndDate >= DateTime.Now)
+            .AsNoTracking();
+
+        foreach (var item in dbData)
+        {
+            if (files.Contains($"wwwroot\\img\\{item.FileName}"))
+            {
+                var data = new SinglePage()
+                {
+                    FilePath = $"wwwroot\\img\\{item.FileName}",
+                    Duration = new TimeSpan(0, 0, (int)item.Duration),
+                    Order = item.Position,
+                    StartDate = item.StartDate,
+                    EndDate = item.EndDate,
+                    IsImage = true
+                };
+
+                Pages.Add(data);
+            }
         }
     }
 }

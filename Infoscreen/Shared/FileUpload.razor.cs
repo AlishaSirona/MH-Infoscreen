@@ -30,12 +30,12 @@ namespace Infoscreen.Shared;
 
 public partial class FileUpload
 {
-    bool isSuccess = true;
+    bool isSuccess = false;
 
     FileData fileData = new();
 
 
-    void OnSubmit()
+    async void OnSubmit()
     {
         if (fileData.BrowserFile == null)
         {
@@ -64,9 +64,57 @@ public partial class FileUpload
 
         string secureFileName = $"{fileName}_{rnd.Next(10000000, 99999999)}.{fileType}";
 
-        Console.WriteLine(secureFileName);
+        try
+        {
+            await SaveBrowserFile(secureFileName);
+            await CreateDbEntry(secureFileName);
 
-        //Dispose();
+            isSuccess = true;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error\nMessage: {ex.Message}");
+        }
+        finally
+        {
+            Dispose();
+        }
+    }
+
+    async Task SaveBrowserFile(string fileName)
+    {
+        var path = Path.Combine(Environment.WebRootPath, "img", fileName);
+
+        await using FileStream fileStream = new FileStream(path, FileMode.Create);
+        await fileData.BrowserFile!.OpenReadStream().CopyToAsync(fileStream);
+
+        ScreenData.Pages.Add(new SinglePage()
+        {
+            FilePath = path,
+            IsImage = true,
+            StartDate = fileData.StartDate,
+            EndDate = (DateTime)fileData.EndDate!,
+            Order = fileData.Order,
+            Duration = new TimeSpan(0,0,(int)fileData.Duration)
+        });
+    }
+
+    async Task CreateDbEntry(string fileName)
+    {
+        using var context = ContextFactory.CreateDbContext();
+
+        var data = new DbInfoscreenLibrary.Pages()
+        {
+            FileName = fileName,
+            Duration = fileData.Duration,
+            Position = fileData.Order,
+            StartDate = fileData.StartDate,
+            EndDate = (DateTime)fileData.EndDate!
+        };
+
+        context.Pages.Add(data);
+
+        await context.SaveChangesAsync();
     }
 
 

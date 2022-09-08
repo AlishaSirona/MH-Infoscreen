@@ -84,9 +84,10 @@ public partial class FileUpload
     async Task SaveBrowserFile(string fileName)
     {
         var path = Path.Combine(Environment.WebRootPath, "img", fileName);
+        long maxFileSizeMB = 1024 * 1000000;
 
         await using FileStream fileStream = new FileStream(path, FileMode.Create);
-        await fileData.BrowserFile!.OpenReadStream().CopyToAsync(fileStream);
+        await fileData.BrowserFile!.OpenReadStream(maxFileSizeMB * 20).CopyToAsync(fileStream);
 
         ScreenData.Pages.Add(new SinglePage()
         {

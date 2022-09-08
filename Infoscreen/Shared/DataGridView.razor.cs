@@ -21,39 +21,17 @@ using Infoscreen.Pages.ProductionPages.UA;
 using Infoscreen.Pages.ProductionPages.VS;
 using Infoscreen.Pages.ProductionPages.WW;
 using Infoscreen.Data;
-using Microsoft.Extensions.Logging;
+using Radzen;
+using Radzen.Blazor;
 using DbInfoscreenLibrary;
 using Microsoft.EntityFrameworkCore;
 
-namespace Infoscreen.Pages;
+namespace Infoscreen.Shared;
 
-public partial class Overview
+public partial class DataGridView
 {
-    IEnumerable<DbInfoscreenLibrary.Pages>? dataView;
-
-    protected override async Task OnInitializedAsync()
-    {
-        using var context = ContextFactory.CreateDbContext();
-
-        dataView = await context.Pages.OrderBy(item => item.Order).ToListAsync();
-    }
-
-
-    async Task OpenUploadFile()
-    {
-        bool? result = await DialogService.OpenAsync<FileUpload>("File-Upload",
-            options: new Radzen.DialogOptions() { Resizable = true, CloseDialogOnOverlayClick = true});
-
-        if (result == true)
-            await RefreshData();
-    }
-
-    async Task RefreshData()
-    {
-        using var context = ContextFactory.CreateDbContext();
-
-        dataView = await context.Pages.OrderBy(item => item.Order).ToListAsync();
-    }
+    [Parameter]
+    public IEnumerable<DbInfoscreenLibrary.Pages>? ViewData { get; set; }
 
 
 }

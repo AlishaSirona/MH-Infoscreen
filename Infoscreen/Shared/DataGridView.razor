@@ -1,0 +1,12 @@
+﻿<h3>DataGridView</h3>
+
+
+<RadzenDataGrid AllowSorting="true" PageSize="10" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true" Data="@ViewData" TItem="DbInfoscreenLibrary.Pages">
+    <Columns>
+        <RadzenDataGridColumn TItem="DbInfoscreenLibrary.Pages" Property="FileName" Title="File" Frozen="true" TextAlign="TextAlign.Center" />
+        <RadzenDataGridColumn TItem="DbInfoscreenLibrary.Pages" Property="Order" Title="Order" TextAlign="TextAlign.Center" />
+        <RadzenDataGridColumn TItem="DbInfoscreenLibrary.Pages" Property="Duration" Title="Duration" TextAlign="TextAlign.Center" />
+        <RadzenDataGridColumn TItem="DbInfoscreenLibrary.Pages" Property="StartDate" Title="StartDate" TextAlign="TextAlign.Center" />
+        <RadzenDataGridColumn TItem="DbInfoscreenLibrary.Pages" Property="EndDate" Title="EndDate" TextAlign="TextAlign.Center" />
+    </Columns>
+</RadzenDataGrid>

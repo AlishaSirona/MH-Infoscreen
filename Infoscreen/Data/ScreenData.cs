@@ -32,7 +32,6 @@ public class ScreenData
         using var context = new DbInfoscreenLibrary.DbInfoscreenContext();
 
         var dbData = context.Pages
-            .Where(item => item.StartDate <= DateTime.Now && item.EndDate >= DateTime.Now)
             .AsNoTracking();
 
         foreach (var item in dbData)
@@ -46,7 +45,7 @@ public class ScreenData
                     Order = item.Order,
                     StartDate = item.StartDate,
                     EndDate = item.EndDate,
-                    IsImage = true
+                    IsImage = true,
                 };
 
                 Pages.Add(data);

@@ -49,6 +49,15 @@ public partial class FileUpload
             return;
         }
 
+        long maxFileSizeMB = 1024 * 1000000;
+        maxFileSizeMB *= 20; //20 MB
+
+        if (fileData.BrowserFile.Size > maxFileSizeMB)
+        {
+            ShowNotification(new NotificationMessage() { Duration = 4000, Severity = NotificationSeverity.Error, Summary = $"Datei ist größer als {maxFileSizeMB / 1000000} MB!" });
+            return;
+        }
+
         Random rnd = new();
 
         string fileName = fileData.BrowserFile.Name
@@ -66,7 +75,7 @@ public partial class FileUpload
 
         try
         {
-            await SaveBrowserFile(secureFileName);
+            await SaveBrowserFile(secureFileName, maxFileSizeMB);
             await CreateDbEntry(secureFileName);
 
             isSuccess = true;
@@ -81,13 +90,12 @@ public partial class FileUpload
         }
     }
 
-    async Task SaveBrowserFile(string fileName)
+    async Task SaveBrowserFile(string fileName, long maxFileSize)
     {
         var path = Path.Combine(Environment.WebRootPath, "img", fileName);
-        long maxFileSizeMB = 1024 * 1000000;
 
         await using FileStream fileStream = new FileStream(path, FileMode.Create);
-        await fileData.BrowserFile!.OpenReadStream(maxFileSizeMB * 20).CopyToAsync(fileStream);
+        await fileData.BrowserFile!.OpenReadStream(maxFileSize).CopyToAsync(fileStream);
 
         ScreenData.Pages.Add(new SinglePage()
         {

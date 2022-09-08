@@ -25,13 +25,99 @@ using Radzen;
 using Radzen.Blazor;
 using DbInfoscreenLibrary;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
+using Infoscreen.Pages;
 
 namespace Infoscreen.Shared;
 
 public partial class DataGridView
 {
     [Parameter]
-    public IEnumerable<DbInfoscreenLibrary.Pages>? ViewData { get; set; }
+    public IList<DbInfoscreenLibrary.Pages>? ViewData { get; set; }
+
+    [Parameter]
+    public bool ShowDelete { get; set; } = false;
+
+    [Parameter]
+    public EventCallback OnChange { get; set; }
 
 
+    RadzenDataGrid<DbInfoscreenLibrary.Pages>? radzenDataGrid;
+    DbInfoscreenLibrary.Pages? dataToInsert;
+
+
+    async Task OnUpdateRow(DbInfoscreenLibrary.Pages dataLine)
+    {
+        if (dataLine == dataToInsert)
+            dataToInsert = null;
+
+        using var context = ContextFactory.CreateDbContext();
+
+        context.Pages!.Update(dataLine);
+
+        await context.SaveChangesAsync();
+
+        Console.WriteLine(dataLine.FileName);
+
+        var screenData = ScreenData.Pages.Where(item => item.InternFileName == dataLine.FileName).First();
+        screenData.Duration = new TimeSpan(0, 0, (int)dataLine.Duration);
+        screenData.Order = dataLine.Order;
+        screenData.StartDate = dataLine.StartDate;
+        screenData.EndDate = dataLine.EndDate;
+
+        await OnChange.InvokeAsync();
+    }
+
+    async Task DeleteRow(DbInfoscreenLibrary.Pages dataLine)
+    {
+        if (dataLine == dataToInsert)
+            dataToInsert = null;
+
+        using var context = ContextFactory.CreateDbContext();
+
+        if (ViewData!.Contains(dataLine))
+        {
+            dataLine.EndDate = DateTime.Now.AddDays(-1).Date;
+            context.Pages!.Update(dataLine);
+            await context.SaveChangesAsync();
+
+            var screenData = ScreenData.Pages.Where(item => item.InternFileName == dataLine.FileName).First();
+            screenData.EndDate = DateTime.Now.AddDays(-1).Date;
+
+            await OnChange.InvokeAsync();
+        }
+        else
+        {
+            radzenDataGrid!.CancelEditRow(dataLine);
+        }
+    }
+
+    async Task SaveRow(DbInfoscreenLibrary.Pages dataLine)
+    {
+        if (dataLine == dataToInsert)
+            dataToInsert = null;
+
+        await radzenDataGrid!.UpdateRow(dataLine);
+    }
+
+    async Task EditRow(DbInfoscreenLibrary.Pages dataLine)
+    {
+        await radzenDataGrid!.EditRow(dataLine);
+    }
+
+    void CancelEdit(DbInfoscreenLibrary.Pages dataLine)
+    {
+        if (dataLine == dataToInsert)
+            dataToInsert = null;
+        radzenDataGrid!.CancelEditRow(dataLine);
+
+        using var context = ContextFactory.CreateDbContext();
+
+        var userEntry = context.Entry(dataLine);
+        if (userEntry.State == EntityState.Modified)
+        {
+            userEntry.CurrentValues.SetValues(userEntry.OriginalValues);
+            userEntry.State = EntityState.Unchanged;
+        }
+    }
 }

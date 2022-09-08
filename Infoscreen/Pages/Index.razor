@@ -11,7 +11,7 @@
 }
 else
 {
-    <MudCarousel @ref="mudCarousel" ItemsSource="mudItems.OrderBy(item => item.Order)" Class="mud-width-full" Style="height: 100%" ShowArrows="true" ShowBullets="true" AutoCycle="false" AutoCycleTime="@cycleTimer" TData="SinglePage" SelectedIndexChanged="@(args => CarouselChanged(args))">
+    <MudCarousel @ref="mudCarousel" ItemsSource="mudItems.Where(item => item.StartDate <= DateTime.Now && item.EndDate >= DateTime.Now).OrderBy(item => item.Order)" Class="mud-width-full" Style="height: 100%" ShowArrows="true" ShowBullets="true" AutoCycle="false" AutoCycleTime="@cycleTimer" TData="SinglePage" SelectedIndexChanged="@(args => CarouselChanged(args))">
         <ItemTemplate>
             @if (context.IsImage)
             {

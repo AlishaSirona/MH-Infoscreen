@@ -29,13 +29,35 @@ namespace Infoscreen.Pages;
 
 public partial class Overview
 {
-    IEnumerable<DbInfoscreenLibrary.Pages>? dataView;
+    IList<DbInfoscreenLibrary.Pages>? dataViewLive;
+    IList<DbInfoscreenLibrary.Pages>? dataViewUpcoming;
+    IList<DbInfoscreenLibrary.Pages>? dataViewOver;
 
     protected override async Task OnInitializedAsync()
     {
+        await LoadDataViews();
+    }
+
+    async Task LoadDataViews()
+    {
         using var context = ContextFactory.CreateDbContext();
 
-        dataView = await context.Pages.OrderBy(item => item.Order).ToListAsync();
+        var data = await context.Pages.AsNoTracking().ToListAsync();
+
+        dataViewLive = data
+            .Where(item => item.StartDate <= DateTime.Now && item.EndDate >= DateTime.Now)
+            .OrderBy(item => item.Order)
+            .ToList();
+
+        dataViewUpcoming = data
+            .Where(item => item.StartDate > DateTime.Now && item.EndDate > DateTime.Now)
+            .OrderBy(item => item.Order)
+            .ToList();
+
+        dataViewOver = data
+            .Where(item => item.EndDate < DateTime.Now)
+            .OrderBy(item => item.Order)
+            .ToList();
     }
 
 
@@ -45,15 +67,7 @@ public partial class Overview
             options: new Radzen.DialogOptions() { Resizable = true, CloseDialogOnOverlayClick = true});
 
         if (result == true)
-            await RefreshData();
+            await LoadDataViews();
     }
-
-    async Task RefreshData()
-    {
-        using var context = ContextFactory.CreateDbContext();
-
-        dataView = await context.Pages.OrderBy(item => item.Order).ToListAsync();
-    }
-
 
 }

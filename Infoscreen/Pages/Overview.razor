@@ -8,5 +8,11 @@
 
 <RadzenButton Text="Upload" Click="@OpenUploadFile" />
 
-<DataGridView ViewData="@dataView" />
+Live
+<DataGridView ViewData="@dataViewLive" OnChange="@LoadDataViews" ShowDelete="true" />
 
+Upcoming
+<DataGridView ViewData="@dataViewUpcoming" OnChange="@LoadDataViews" />
+
+Over
+<DataGridView ViewData="@dataViewOver" OnChange="@LoadDataViews" />

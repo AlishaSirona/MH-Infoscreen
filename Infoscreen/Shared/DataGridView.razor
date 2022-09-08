@@ -1,12 +1,65 @@
-﻿<h3>DataGridView</h3>
+﻿@inject ScreenData ScreenData
+@inject IDbContextFactory<DbInfoscreenContext> ContextFactory
 
 
-<RadzenDataGrid AllowSorting="true" PageSize="10" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true" Data="@ViewData" TItem="DbInfoscreenLibrary.Pages">
+<RadzenDataGrid AllowSorting="true" AllowColumnResize="true" PageSize="10" AllowPaging="true" PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
+                @ref="@radzenDataGrid" EditMode="Radzen.DataGridEditMode.Single" RowUpdate="@OnUpdateRow" Data="@ViewData" TItem="DbInfoscreenLibrary.Pages">
     <Columns>
-        <RadzenDataGridColumn TItem="DbInfoscreenLibrary.Pages" Property="FileName" Title="File" Frozen="true" TextAlign="TextAlign.Center" />
-        <RadzenDataGridColumn TItem="DbInfoscreenLibrary.Pages" Property="Order" Title="Order" TextAlign="TextAlign.Center" />
-        <RadzenDataGridColumn TItem="DbInfoscreenLibrary.Pages" Property="Duration" Title="Duration" TextAlign="TextAlign.Center" />
-        <RadzenDataGridColumn TItem="DbInfoscreenLibrary.Pages" Property="StartDate" Title="StartDate" TextAlign="TextAlign.Center" />
-        <RadzenDataGridColumn TItem="DbInfoscreenLibrary.Pages" Property="EndDate" Title="EndDate" TextAlign="TextAlign.Center" />
+        <RadzenDataGridColumn TItem="DbInfoscreenLibrary.Pages" Property="FileName" Title="Bild" Frozen="true" TextAlign="TextAlign.Center">
+            <Template Context="data">
+                <RadzenImage Path="@($"img/{data.FileName}")" Style="height: 40px; border-radius: 8px" />
+            </Template>
+        </RadzenDataGridColumn>
+        <RadzenDataGridColumn TItem="DbInfoscreenLibrary.Pages" Property="FileName" Title="Dateiname" Frozen="true" TextAlign="TextAlign.Center">
+            <Template Context="data">
+                @data.FileName.Remove(data.FileName.IndexOf('_'))
+            </Template>
+        </RadzenDataGridColumn>
+
+
+        <RadzenDataGridColumn TItem="DbInfoscreenLibrary.Pages" Property="Order" Title="Reihenfolge" TextAlign="TextAlign.Center">
+            <EditTemplate Context="data">
+                <RadzenNumeric TValue="uint" Min="0" Max="999" ShowUpDown="false" @bind-Value="data.Order" Style="width:100%; display:block" />
+            </EditTemplate>
+        </RadzenDataGridColumn>
+
+        <RadzenDataGridColumn TItem="DbInfoscreenLibrary.Pages" Property="Duration" Title="Anzeigedauer [sek.]" TextAlign="TextAlign.Center">
+            <EditTemplate Context="data">
+                <RadzenNumeric TValue="uint" Min="0" Max="181" ShowUpDown="false" @bind-Value="data.Duration" Style="width:100%; display:block" />
+            </EditTemplate>
+        </RadzenDataGridColumn>
+
+        <RadzenDataGridColumn TItem="DbInfoscreenLibrary.Pages" Property="StartDate" Title="Startzeit" TextAlign="TextAlign.Center">
+            <EditTemplate Context="data">
+                <RadzenDatePicker TValue="DateTime" DateFormat="dd.MM.yyyy HH:mm" ShowTime="true" @bind-Value="data.StartDate" Style="width:100%; display:block" />
+            </EditTemplate>
+        </RadzenDataGridColumn>
+
+        <RadzenDataGridColumn TItem="DbInfoscreenLibrary.Pages" Property="EndDate" Title="Endzeit" TextAlign="TextAlign.Center">
+            <EditTemplate Context="data">
+                <RadzenDatePicker TValue="DateTime" DateFormat="dd.MM.yyyy HH:mm" ShowTime="true" @bind-Value="data.EndDate" Style="width:100%; display:block" />
+            </EditTemplate>
+        </RadzenDataGridColumn>
+
+
+        <RadzenDataGridColumn TItem="DbInfoscreenLibrary.Pages" Title="Bearbeiten" Context="sampleBlazorModelsSampleOrder" Sortable="false" TextAlign="TextAlign.Center">
+            <Template Context="data">
+                <RadzenButton Icon="edit" ButtonStyle="ButtonStyle.Light" class="m-1" Click="@(args => EditRow(data))" @onclick:stopPropagation="true" />
+            </Template>
+            <EditTemplate Context="data">
+                <RadzenButton Icon="check" ButtonStyle="ButtonStyle.Primary" class="m-1" Click="@((args) => SaveRow(data))" />
+                <RadzenButton Icon="close" ButtonStyle="ButtonStyle.Light" class="m-1" Click="@((args) => CancelEdit(data))" />
+            </EditTemplate>
+        </RadzenDataGridColumn>
+
+
+        @if (ShowDelete)
+        {
+            <RadzenDataGridColumn TItem="DbInfoscreenLibrary.Pages" Title="Deaktivieren" Context="data" Sortable="false" TextAlign="TextAlign.Center">
+                <Template Context="data">
+                    <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" Size="ButtonSize.Small" class="m-1" Click="@(args => DeleteRow(data))" @onclick:stopPropagation="true" />
+                </Template>
+            </RadzenDataGridColumn>
+        }
     </Columns>
 </RadzenDataGrid>

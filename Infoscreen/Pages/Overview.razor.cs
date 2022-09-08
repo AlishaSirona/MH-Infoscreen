@@ -70,4 +70,35 @@ public partial class Overview
             await LoadDataViews();
     }
 
+    async Task CleanupFiles()
+    {
+        using var context = ContextFactory.CreateDbContext();
+
+        var oldDbData = await context.Pages
+            .Where(item => item.EndDate < DateTime.Now)
+            .ToListAsync();
+
+        if (oldDbData != null)
+        {
+            context.Pages.RemoveRange(oldDbData);
+            await context.SaveChangesAsync();
+        }
+
+        List<SinglePage>? oldPages = ScreenData.Pages.Where(item => item.EndDate < DateTime.Now).ToList();
+
+
+        foreach (var item in oldPages)
+        {
+            if (!item.IsImage)
+                continue;
+
+            if (File.Exists(item.FilePath))
+            {
+                File.Delete(item.FilePath);
+                ScreenData.Pages.Remove(item);
+            }
+        }
+
+        await LoadDataViews();
+    }
 }

@@ -43,7 +43,7 @@ public class ScreenData
                 {
                     FilePath = $"wwwroot\\img\\{item.FileName}",
                     Duration = new TimeSpan(0, 0, (int)item.Duration),
-                    Order = item.Position,
+                    Order = item.Order,
                     StartDate = item.StartDate,
                     EndDate = item.EndDate,
                     IsImage = true

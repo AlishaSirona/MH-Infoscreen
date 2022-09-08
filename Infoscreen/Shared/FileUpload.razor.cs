@@ -107,7 +107,7 @@ public partial class FileUpload
         {
             FileName = fileName,
             Duration = fileData.Duration,
-            Position = fileData.Order,
+            Order = fileData.Order,
             StartDate = fileData.StartDate,
             EndDate = (DateTime)fileData.EndDate!
         };

@@ -3,17 +3,49 @@
 @inject ScreenData ScreenData
 @inject IDbContextFactory<DbInfoscreenContext> ContextFactory
 @inject Radzen.DialogService DialogService
+@inject Radzen.NotificationService NotificationService
 
-<h3>Overview</h3>
 
-<RadzenButton Text="Upload" Click="@OpenUploadFile" />
-<RadzenButton Text="Cleanup" Click="@CleanupFiles" />
+<h3 class="m-3">Dashboard - Infoscreen</h3>
 
-Live
-<DataGridView ViewData="@dataViewLive" OnChange="@LoadDataViews" ShowDelete="true" />
+<div class="container">
+    <div class="row">
+        <div class="col-6">
+            <RadzenCard class="m-3">
+                <h3 class="h5">Neue Bilder hinzufügen:</h3>
+                <RadzenButton Text="Upload" Click="@OpenUploadFile" />
+            </RadzenCard>
+        </div>
+        <div class="col-6">
+            <RadzenCard class="m-3">
+                <h3 class="h5">Alte Bilder löschen:</h3>
+                <RadzenButton Text="Cleanup" Click="@OpenConfirmDialog" />
+            </RadzenCard>
+        </div>
+    </div>
+</div>
 
-Upcoming
-<DataGridView ViewData="@dataViewUpcoming" OnChange="@LoadDataViews" />
+<div class="row">
+    <div class="col-12">
+        <RadzenCard class="m-2">
+            <h3 class="h5">Live-Bilder</h3>
+            <DataGridView ViewData="@dataViewLive" OnChange="@LoadDataViews" ShowDelete="true" />
+        </RadzenCard>
+    </div>
 
-Over
-<DataGridView ViewData="@dataViewOver" OnChange="@LoadDataViews" />
+    <div class="col-xl-6 col-12">
+        <RadzenCard class="m-2">
+            <h3 class="h5">Bevorstehende-Bilder</h3>
+            <DataGridView ViewData="@dataViewUpcoming" OnChange="@LoadDataViews" />
+        </RadzenCard>
+    </div>
+
+    <div class="col-xl-6 col-12">
+        <RadzenCard class="m-2">
+            <h3 class="h5">Vergangene-Bilder</h3>
+            <DataGridView ViewData="@dataViewOver" OnChange="@LoadDataViews" />
+        </RadzenCard>
+    </div>
+</div>
+
+

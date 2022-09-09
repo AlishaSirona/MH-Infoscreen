@@ -10,7 +10,7 @@
                 <RadzenImage Path="@($"img/{data.FileName}")" Style="height: 40px; border-radius: 8px" />
             </Template>
         </RadzenDataGridColumn>
-        <RadzenDataGridColumn TItem="DbInfoscreenLibrary.Pages" Property="FileName" Title="Dateiname" Frozen="true" TextAlign="TextAlign.Center">
+        <RadzenDataGridColumn TItem="DbInfoscreenLibrary.Pages" Property="FileName" Title="Dateiname" Frozen="false" TextAlign="TextAlign.Center">
             <Template Context="data">
                 @data.FileName.Remove(data.FileName.IndexOf('_'))
             </Template>

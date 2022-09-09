@@ -11,18 +11,18 @@ public class ScreenData
     {
         Pages = new List<SinglePage>()
         {
-            new SinglePage() { FilePath = "Accidents",  Order = 500},
-            new SinglePage() { FilePath = "STW1",       Order = 501},
-            new SinglePage() { FilePath = "STW2",       Order = 502},
-            new SinglePage() { FilePath = "STW3",       Order = 503},
-            new SinglePage() { FilePath = "WW1",        Order = 504},
-            new SinglePage() { FilePath = "WW2",        Order = 505},
-            new SinglePage() { FilePath = "UA1",        Order = 506},
-            new SinglePage() { FilePath = "UA2",        Order = 507},
-            new SinglePage() { FilePath = "VS1",        Order = 508},
-            new SinglePage() { FilePath = "Companies",  Order = 509},
-            new SinglePage() { FilePath = "Visitors",   Order = 510},
-            new SinglePage() { FilePath = "Weather",    Order = 511},
+            new SinglePage() { FilePath = "Accidents",  Order = 100},
+            new SinglePage() { FilePath = "STW1",       Order = 101},
+            new SinglePage() { FilePath = "STW2",       Order = 102},
+            new SinglePage() { FilePath = "STW3",       Order = 103},
+            new SinglePage() { FilePath = "WW1",        Order = 104},
+            new SinglePage() { FilePath = "WW2",        Order = 105},
+            new SinglePage() { FilePath = "UA1",        Order = 106},
+            new SinglePage() { FilePath = "UA2",        Order = 107},
+            new SinglePage() { FilePath = "VS1",        Order = 108},
+            new SinglePage() { FilePath = "Companies",  Order = 109},
+            new SinglePage() { FilePath = "Visitors",   Order = 110},
+            new SinglePage() { FilePath = "Weather",    Order = 111},
         };
 
         var files = Directory.GetFiles(@"wwwroot\img");

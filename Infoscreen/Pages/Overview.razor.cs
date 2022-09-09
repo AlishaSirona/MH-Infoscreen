@@ -24,6 +24,7 @@ using Infoscreen.Data;
 using Microsoft.Extensions.Logging;
 using DbInfoscreenLibrary;
 using Microsoft.EntityFrameworkCore;
+using Radzen;
 
 namespace Infoscreen.Pages;
 
@@ -70,9 +71,24 @@ public partial class Overview
             await LoadDataViews();
     }
 
+    async Task OpenConfirmDialog()
+    {
+        var result = await DialogService.Confirm(
+            "Dadurch werden alle alten Bilder gelöscht und können nicht mehr reaktiviert werden!",
+            "Achtung!",
+            new Radzen.ConfirmOptions() { OkButtonText = "Weiter", CancelButtonText = "Abbrechen" });
+
+        if (result == true)
+            await CleanupFiles();
+
+        DialogService.Dispose();
+    }
+
     async Task CleanupFiles()
     {
         using var context = ContextFactory.CreateDbContext();
+
+        int fileCounter = 0;
 
         var oldDbData = await context.Pages
             .Where(item => item.EndDate < DateTime.Now)
@@ -96,9 +112,25 @@ public partial class Overview
             {
                 File.Delete(item.FilePath);
                 ScreenData.Pages.Remove(item);
+                fileCounter++;
             }
         }
 
         await LoadDataViews();
+
+        string message;
+
+        if (fileCounter == 0)
+            message = "Keine Bilder zum Löschen vorhanden";
+        else if (fileCounter == 1)
+            message = "Ein Bild wurde gelöscht";
+        else
+            message = $"{fileCounter} Bilder wurden gelöscht";
+        ShowNotification(new NotificationMessage { Severity = NotificationSeverity.Success, Duration = 4000, Summary = message });
+    }
+
+    void ShowNotification(NotificationMessage message)
+    {
+        NotificationService.Notify(message);
     }
 }

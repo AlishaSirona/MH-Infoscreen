@@ -35,12 +35,6 @@ public partial class FileUpload
 
     FileData fileData = new();
 
-    protected override void OnInitialized()
-    {
-        Log.Information("FileUpload was opened");
-    }
-
-
     async void OnSubmit()
     {
         if (fileData.BrowserFile == null)
@@ -84,11 +78,14 @@ public partial class FileUpload
             await SaveBrowserFile(secureFileName, maxFileSizeMB);
             await CreateDbEntry(secureFileName);
 
+            Log.Information("Bild wurde hochgeladen {FileName}", secureFileName);
+
             isSuccess = true;
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Error\nMessage: {ex.Message}");
+            Log.Error("Fehler beim Hochladen der Datei {FileName} {FileSize} {ContentType} {Message} {StackTrace} {InnerException}",
+                secureFileName, fileData.BrowserFile.Size, fileData.BrowserFile.ContentType, ex.Message, ex.StackTrace, ex.InnerException);
         }
         finally
         {

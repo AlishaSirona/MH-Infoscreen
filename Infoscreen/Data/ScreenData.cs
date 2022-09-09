@@ -28,7 +28,7 @@ public class ScreenData
 
         try
         {
-            var files = Directory.GetFiles(@"wwwroot\img");
+            var files = Directory.GetFiles(Path.Join("wwwroot", "img"));
 
             Random rnd = new();
 
@@ -39,11 +39,11 @@ public class ScreenData
 
             foreach (var item in dbData)
             {
-                if (files.Contains($"wwwroot\\img\\{item.FileName}"))
+                if (files.Contains(Path.Join("wwwroot", "img", item.FileName)))
                 {
                     var data = new SinglePage()
                     {
-                        FilePath = $"wwwroot\\img\\{item.FileName}",
+                        FilePath = Path.Join("wwwroot", "img", item.FileName),
                         Duration = new TimeSpan(0, 0, (int)item.Duration),
                         Order = item.Order,
                         StartDate = item.StartDate,

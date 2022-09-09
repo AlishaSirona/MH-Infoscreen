@@ -25,6 +25,7 @@ using Microsoft.Extensions.Logging;
 using DbInfoscreenLibrary;
 using Microsoft.EntityFrameworkCore;
 using Radzen;
+using Serilog;
 
 namespace Infoscreen.Pages;
 
@@ -41,31 +42,40 @@ public partial class Overview
 
     async Task LoadDataViews()
     {
-        using var context = ContextFactory.CreateDbContext();
+        try
+        {
+            using var context = ContextFactory.CreateDbContext();
 
-        var data = await context.Pages.AsNoTracking().ToListAsync();
+            var data = await context.Pages.AsNoTracking().ToListAsync();
 
-        dataViewLive = data
-            .Where(item => item.StartDate <= DateTime.Now && item.EndDate >= DateTime.Now)
-            .OrderBy(item => item.Order)
-            .ToList();
+            dataViewLive = data
+                .Where(item => item.StartDate <= DateTime.Now && item.EndDate >= DateTime.Now)
+                .OrderBy(item => item.Order)
+                .ToList();
 
-        dataViewUpcoming = data
-            .Where(item => item.StartDate > DateTime.Now && item.EndDate > DateTime.Now)
-            .OrderBy(item => item.Order)
-            .ToList();
+            dataViewUpcoming = data
+                .Where(item => item.StartDate > DateTime.Now && item.EndDate > DateTime.Now)
+                .OrderBy(item => item.Order)
+                .ToList();
 
-        dataViewOver = data
-            .Where(item => item.EndDate < DateTime.Now)
-            .OrderBy(item => item.Order)
-            .ToList();
+            dataViewOver = data
+                .Where(item => item.EndDate < DateTime.Now)
+                .OrderBy(item => item.Order)
+                .ToList();
+        }
+        catch (Exception ex)
+        {
+            Log.Error("Fehler beim Updaten der einzelnen Tabellen {Message} {StackTrace} {InnerException}", ex.Message, ex.StackTrace, ex.InnerException);
+            ShowNotification(new NotificationMessage { Severity = NotificationSeverity.Error, Duration = 4000, Summary = "Fehler mehr Infos im Log!" });
+        }
+
     }
 
 
     async Task OpenUploadFile()
     {
         bool? result = await DialogService.OpenAsync<FileUpload>("File-Upload",
-            options: new Radzen.DialogOptions() { Resizable = true, CloseDialogOnOverlayClick = true});
+            options: new Radzen.DialogOptions() { Resizable = true, CloseDialogOnOverlayClick = true });
 
         if (result == true)
             await LoadDataViews();
@@ -79,16 +89,49 @@ public partial class Overview
             new Radzen.ConfirmOptions() { OkButtonText = "Weiter", CancelButtonText = "Abbrechen" });
 
         if (result == true)
-            await CleanupFiles();
+            await CleanUpController();
 
         DialogService.Dispose();
     }
 
-    async Task CleanupFiles()
+    async Task CleanUpController()
+    {
+        int fileCounter = 0;
+        bool isSuccess = false;
+
+        try
+        {
+            await CleanUpDb();
+            fileCounter = CleanUpFiles();
+            isSuccess = true;
+        }
+        catch (Exception ex)
+        {
+            Log.Error("Fehler beim löschen der alten Bilder {Message} {StackTrace} {InnerException}", ex.Message, ex.StackTrace, ex.InnerException);
+            ShowNotification(new NotificationMessage { Severity = NotificationSeverity.Error, Duration = 4000, Summary = "Fehler mehr Infos im Log!" });
+        }
+        finally
+        {
+            if (isSuccess)
+            {
+                await LoadDataViews();
+
+                string message;
+
+                if (fileCounter == 0)
+                    message = "Keine Bilder zum Löschen vorhanden";
+                else if (fileCounter == 1)
+                    message = "Ein Bild wurde gelöscht";
+                else
+                    message = $"{fileCounter} Bilder wurden gelöscht";
+                ShowNotification(new NotificationMessage { Severity = NotificationSeverity.Success, Duration = 4000, Summary = message });
+            }
+        }
+    }
+
+    async Task CleanUpDb()
     {
         using var context = ContextFactory.CreateDbContext();
-
-        int fileCounter = 0;
 
         var oldDbData = await context.Pages
             .Where(item => item.EndDate < DateTime.Now)
@@ -99,9 +142,13 @@ public partial class Overview
             context.Pages.RemoveRange(oldDbData);
             await context.SaveChangesAsync();
         }
+    }
+
+    int CleanUpFiles()
+    {
+        int fileCounter = 0;
 
         List<SinglePage>? oldPages = ScreenData.Pages.Where(item => item.EndDate < DateTime.Now).ToList();
-
 
         foreach (var item in oldPages)
         {
@@ -115,18 +162,7 @@ public partial class Overview
                 fileCounter++;
             }
         }
-
-        await LoadDataViews();
-
-        string message;
-
-        if (fileCounter == 0)
-            message = "Keine Bilder zum Löschen vorhanden";
-        else if (fileCounter == 1)
-            message = "Ein Bild wurde gelöscht";
-        else
-            message = $"{fileCounter} Bilder wurden gelöscht";
-        ShowNotification(new NotificationMessage { Severity = NotificationSeverity.Success, Duration = 4000, Summary = message });
+        return fileCounter;
     }
 
     void ShowNotification(NotificationMessage message)

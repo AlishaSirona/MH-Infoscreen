@@ -137,16 +137,19 @@ public partial class Overview
             .Where(item => item.EndDate < DateTime.Now)
             .ToListAsync();
 
-        if (oldDbData != null)
+        if (oldDbData != null && oldDbData.Count > 0)
         {
             context.Pages.RemoveRange(oldDbData);
             await context.SaveChangesAsync();
+
+            Log.Information("Datenbankeinträge wurden gelöscht {EntryCount} {Entries}", oldDbData.Count, oldDbData.Select(item => item.FileName).ToList());
         }
     }
 
     int CleanUpFiles()
     {
         int fileCounter = 0;
+        List<string> files = new List<string>();
 
         List<SinglePage>? oldPages = ScreenData.Pages.Where(item => item.EndDate < DateTime.Now).ToList();
 
@@ -160,8 +163,13 @@ public partial class Overview
                 File.Delete(item.FilePath);
                 ScreenData.Pages.Remove(item);
                 fileCounter++;
+                files.Add(item.InternFileName);
             }
         }
+
+        if (fileCounter > 0)
+            Log.Information("Bilder wurden gelöscht {FileCount} {FileNames}", fileCounter, files);
+
         return fileCounter;
     }
 

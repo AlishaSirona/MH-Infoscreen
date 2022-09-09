@@ -1,4 +1,6 @@
-﻿namespace Infoscreen.Data;
+﻿using System.Runtime.InteropServices;
+
+namespace Infoscreen.Data;
 
 public class SinglePage
 {
@@ -9,8 +11,9 @@ public class SinglePage
     public DateTime StartDate { get; set; } = DateTime.Now.Date;
     public DateTime EndDate { get; set; } = DateTime.Now.AddDays(10).Date;
 
+    private string _delimiter => RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "\\" : "/";
 
-    public string InternFileName => IsImage ? FilePath.Substring(FilePath.LastIndexOf('\\') + 1) : FilePath;
-    public string InternFilePath => IsImage ? $"\\img\\{FilePath.Substring(FilePath.LastIndexOf('\\'))}" : FilePath;
+    public string InternFileName => IsImage ? FilePath.Substring(FilePath.LastIndexOf(_delimiter) + 1) : FilePath;
+    public string InternFilePath => IsImage ? $"{_delimiter}img{_delimiter}{FilePath.Substring(FilePath.LastIndexOf(_delimiter))}" : FilePath;
     public string InternPosition => $"{Order};{InternFilePath}";
 }

@@ -25,6 +25,7 @@ using Radzen;
 using Radzen.Blazor;
 using DbInfoscreenLibrary;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 
 namespace Infoscreen.Shared;
 
@@ -33,6 +34,11 @@ public partial class FileUpload
     bool isSuccess = false;
 
     FileData fileData = new();
+
+    protected override void OnInitialized()
+    {
+        Log.Information("FileUpload was opened");
+    }
 
 
     async void OnSubmit()

@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using MudBlazor.Services;
 using Radzen;
+using Serilog;
+using Serilog.Extensions.Logging;
 
 namespace Infoscreen
 {
@@ -24,6 +26,13 @@ namespace Infoscreen
             builder.Services.AddScoped<Radzen.NotificationService>();
 
             builder.Services.AddSingleton<ScreenData>();
+
+            Log.Logger = new LoggerConfiguration()
+                .Enrich.WithProperty("Program", "Infoscreen-Web")
+                .WriteTo.Seq("http://localhost:5341", bufferBaseFilename: "log")
+                .CreateLogger();
+
+            builder.Logging.AddProvider(new SerilogLoggerProvider());
 
             var app = builder.Build();
 

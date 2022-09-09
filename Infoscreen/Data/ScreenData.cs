@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Serilog;
 using static MudBlazor.Colors;
 
 namespace Infoscreen.Data;
@@ -25,31 +26,38 @@ public class ScreenData
             new SinglePage() { FilePath = "Weather",    Order = 111},
         };
 
-        var files = Directory.GetFiles(@"wwwroot\img");
-
-        Random rnd = new();
-
-        using var context = new DbInfoscreenLibrary.DbInfoscreenContext();
-
-        var dbData = context.Pages
-            .AsNoTracking();
-
-        foreach (var item in dbData)
+        try
         {
-            if (files.Contains($"wwwroot\\img\\{item.FileName}"))
-            {
-                var data = new SinglePage()
-                {
-                    FilePath = $"wwwroot\\img\\{item.FileName}",
-                    Duration = new TimeSpan(0, 0, (int)item.Duration),
-                    Order = item.Order,
-                    StartDate = item.StartDate,
-                    EndDate = item.EndDate,
-                    IsImage = true,
-                };
+            var files = Directory.GetFiles(@"wwwroot\img");
 
-                Pages.Add(data);
+            Random rnd = new();
+
+            using var context = new DbInfoscreenLibrary.DbInfoscreenContext();
+
+            var dbData = context.Pages
+                .AsNoTracking();
+
+            foreach (var item in dbData)
+            {
+                if (files.Contains($"wwwroot\\img\\{item.FileName}"))
+                {
+                    var data = new SinglePage()
+                    {
+                        FilePath = $"wwwroot\\img\\{item.FileName}",
+                        Duration = new TimeSpan(0, 0, (int)item.Duration),
+                        Order = item.Order,
+                        StartDate = item.StartDate,
+                        EndDate = item.EndDate,
+                        IsImage = true,
+                    };
+
+                    Pages.Add(data);
+                }
             }
+        }
+        catch (Exception ex)
+        {
+            Log.Error("Fehler beim generieren der ScreenData {Message} {StackTrace} {InnerException}", ex.Message, ex.StackTrace, ex.InnerException);
         }
     }
 }

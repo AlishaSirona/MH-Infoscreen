@@ -29,7 +29,7 @@ namespace Infoscreen
 
             Log.Logger = new LoggerConfiguration()
                 .Enrich.WithProperty("Program", "Infoscreen-Web")
-                .WriteTo.Seq("http://localhost:5341", bufferBaseFilename: "log")
+                .WriteTo.Seq("http://localhost:5341", bufferBaseFilename: @"Logs\log")
                 .CreateLogger();
 
             builder.Logging.AddProvider(new SerilogLoggerProvider());

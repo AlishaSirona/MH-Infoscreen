@@ -1,0 +1,17 @@
+﻿.centric {
+    text-align: center;
+}
+
+.headline {
+    font-size: 70px;
+    font-weight: bold;
+    font-family: Arial, Arial, Helvetica, sans-serif;
+    text-indent: 5%;
+    text-decoration: underline;
+}
+
+.last-shipment {
+    font-size: 60px;
+    font-family: Arial, Arial, Helvetica, sans-serif;
+}
+

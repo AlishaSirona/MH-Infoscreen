@@ -32,7 +32,7 @@ public partial class Index
     {
         mudItems = ScreenData.Pages;
 
-        SharePointSTW.GetSPLists();
+        //SharePointSTW.GetSPLists();
     }
 
     void CarouselChanged(int index)

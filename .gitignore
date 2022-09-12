@@ -263,3 +263,4 @@ __pycache__/
 *.clef
 Infoscreen/log.bookmark
 Infoscreen/Logs/log.bookmark
+Infoscreen/Logs/invalid-BadRequest-3c2079973b9c4c99b07a1f1d53c20be8.json

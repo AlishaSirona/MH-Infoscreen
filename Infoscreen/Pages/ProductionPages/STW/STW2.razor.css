@@ -1,0 +1,32 @@
+﻿.centric {
+    text-align: center;
+}
+
+.headline {
+    font-size: 70px;
+    font-weight: bold;
+    font-family: Arial, Arial, Helvetica, sans-serif;
+    text-indent: 5%;
+    text-decoration: underline;
+}
+
+.sub-headline {
+    font-size: 40px;
+    font-weight: bold;
+    font-family: Arial, Arial, Helvetica, sans-serif;
+}
+
+.gauge-header {
+    font-size: 38px;
+    font-weight: bold;
+    font-family: Arial, Arial, Helvetica, sans-serif;
+    text-align: left;
+    position: absolute;
+    margin-left: 5%;
+}
+
+.pointer-value {
+    font-size: 40px;
+    font-weight: bold;
+    font-family: Arial, Arial, Helvetica, sans-serif;
+}

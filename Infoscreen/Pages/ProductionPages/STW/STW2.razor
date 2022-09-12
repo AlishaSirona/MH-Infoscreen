@@ -1,5 +1,188 @@
-﻿<h3>STW2</h3>
+﻿<div class="headline">Stahlwerk</div>
 
-@code {
+<div class="row">
+    <div class="col-12 centric sub-headline">
+        kWh/t Schrott
+    </div>
+    <div class="col-4 centric">
+        <div class="gauge-header">
+            24h
+        </div>
+        <RadzenRadialGauge Style="height: 23vh">
+            <RadzenRadialGaugeScale StartAngle="-110" EndAngle="110" Min="300" Max="370" TickPosition="GaugeTickPosition.None" >
+                <RadzenRadialGaugeScalePointer Value="16.6" Length=".8" Width="6" Radius="10" ShowValue="true">
+                    <Template Context="pointer">
+                        <h1 class="pointer-value">
+                            @pointer.Value.ToString("0.00")
+                        </h1>
+                    </Template>
+                </RadzenRadialGaugeScalePointer>
+                <RadzenRadialGaugeScaleRange From="300" To="325" Fill="green" Height="15"/>
+                <RadzenRadialGaugeScaleRange From="325" To="335" Fill="orange" Height="15" />
+                <RadzenRadialGaugeScaleRange From="335" To="370" Fill="red" Height="15" />
+            </RadzenRadialGaugeScale>
+        </RadzenRadialGauge>
+    </div>
+    <div class="col-4 centric">
+        <div class="gauge-header">
+            7 Tage
+        </div>
+        <RadzenRadialGauge Style="height: 23vh">
+            <RadzenRadialGaugeScale StartAngle="-110" EndAngle="110" Min="310" Max="350" TickPosition="GaugeTickPosition.None">
+                <RadzenRadialGaugeScalePointer Value="16.6" Length=".8" Width="6" Radius="10" ShowValue="true">
+                    <Template Context="pointer">
+                        <h1 class="pointer-value">
+                            @pointer.Value.ToString("0.00")
+                        </h1>
+                    </Template>
+                </RadzenRadialGaugeScalePointer>
+                <RadzenRadialGaugeScaleRange From="310" To="325" Fill="green" Height="15" />
+                <RadzenRadialGaugeScaleRange From="325" To="335" Fill="orange" Height="15" />
+                <RadzenRadialGaugeScaleRange From="335" To="350" Fill="red" Height="15" />
+            </RadzenRadialGaugeScale>
+        </RadzenRadialGauge>
+    </div>
+    <div class="col-4 centric">
+        <div class="gauge-header">
+            30 Tage
+        </div>
+        <RadzenRadialGauge Style="height: 23vh">
+            <RadzenRadialGaugeScale StartAngle="-110" EndAngle="110" Min="315" Max="345" TickPosition="GaugeTickPosition.None">
+                <RadzenRadialGaugeScalePointer Value="16.6" Length=".8" Width="6" Radius="10" ShowValue="true">
+                    <Template Context="pointer">
+                        <h1 class="pointer-value">
+                            @pointer.Value.ToString("0.00")
+                        </h1>
+                    </Template>
+                </RadzenRadialGaugeScalePointer>
+                <RadzenRadialGaugeScaleRange From="315" To="327" Fill="green" Height="15" />
+                <RadzenRadialGaugeScaleRange From="327" To="333" Fill="orange" Height="15" />
+                <RadzenRadialGaugeScaleRange From="333" To="345" Fill="red" Height="15" />
+            </RadzenRadialGaugeScale>
+        </RadzenRadialGauge>
+    </div>
 
-}
+
+    <div class="col-12 centric sub-headline">
+        Sauerstoff [m³/t]
+    </div>
+    <div class="col-4 centric">
+        <div class="gauge-header">
+            24h
+        </div>
+        <RadzenRadialGauge Style="height: 23vh">
+            <RadzenRadialGaugeScale StartAngle="-110" EndAngle="110" Min="25" Max="43" TickPosition="GaugeTickPosition.None">
+                <RadzenRadialGaugeScalePointer Value="16.6" Length=".8" Width="6" Radius="10" ShowValue="true">
+                    <Template Context="pointer">
+                        <h1 class="pointer-value">
+                            @pointer.Value.ToString("0.00")
+                        </h1>
+                    </Template>
+                </RadzenRadialGaugeScalePointer>
+                <RadzenRadialGaugeScaleRange From="25" To="38" Fill="green" Height="15" />
+                <RadzenRadialGaugeScaleRange From="38" To="40" Fill="orange" Height="15" />
+                <RadzenRadialGaugeScaleRange From="40" To="43" Fill="red" Height="15" />
+            </RadzenRadialGaugeScale>
+        </RadzenRadialGauge>
+    </div>
+    <div class="col-4 centric">
+        <div class="gauge-header">
+            7 Tage
+        </div>
+        <RadzenRadialGauge Style="height: 23vh">
+            <RadzenRadialGaugeScale StartAngle="-110" EndAngle="110" Min="28" Max="42" TickPosition="GaugeTickPosition.None">
+                <RadzenRadialGaugeScalePointer Value="16.6" Length=".8" Width="6" Radius="10" ShowValue="true">
+                    <Template Context="pointer">
+                        <h1 class="pointer-value">
+                            @pointer.Value.ToString("0.00")
+                        </h1>
+                    </Template>
+                </RadzenRadialGaugeScalePointer>
+                <RadzenRadialGaugeScaleRange From="28" To="38.5" Fill="green" Height="15" />
+                <RadzenRadialGaugeScaleRange From="38.5" To="40" Fill="orange" Height="15" />
+                <RadzenRadialGaugeScaleRange From="40" To="42" Fill="red" Height="15" />
+            </RadzenRadialGaugeScale>
+        </RadzenRadialGauge>
+    </div>
+    <div class="col-4 centric">
+        <div class="gauge-header">
+            30 Tage
+        </div>
+        <RadzenRadialGauge Style="height: 23vh">
+            <RadzenRadialGaugeScale StartAngle="-110" EndAngle="110" Min="33" Max="42" TickPosition="GaugeTickPosition.None">
+                <RadzenRadialGaugeScalePointer Value="16.6" Length=".8" Width="6" Radius="10" ShowValue="true">
+                    <Template Context="pointer">
+                        <h1 class="pointer-value">
+                            @pointer.Value.ToString("0.00")
+                        </h1>
+                    </Template>
+                </RadzenRadialGaugeScalePointer>
+                <RadzenRadialGaugeScaleRange From="33" To="39" Fill="green" Height="15" />
+                <RadzenRadialGaugeScaleRange From="39" To="40" Fill="orange" Height="15" />
+                <RadzenRadialGaugeScaleRange From="40" To="42" Fill="red" Height="15" />
+            </RadzenRadialGaugeScale>
+        </RadzenRadialGauge>
+    </div>
+
+
+    <div class="col-12 centric sub-headline">
+        Power Off [min.]
+    </div>
+    <div class="col-4 centric">
+        <div class="gauge-header">
+            24h
+        </div>
+        <RadzenRadialGauge Style="height: 23vh">
+            <RadzenRadialGaugeScale StartAngle="-110" EndAngle="110" Min="8" Max="25" TickPosition="GaugeTickPosition.None" >
+                <RadzenRadialGaugeScalePointer Value="16.6" Length=".8" Width="6" Radius="10" ShowValue="true">
+                    <Template Context="pointer">
+                        <h1 class="pointer-value">
+                            @pointer.Value.ToString("0.00")
+                        </h1>
+                    </Template>
+                </RadzenRadialGaugeScalePointer>
+                <RadzenRadialGaugeScaleRange From="8" To="10.5" Fill="green" Height="15" />
+                <RadzenRadialGaugeScaleRange From="10.5" To="11.5" Fill="orange" Height="15" />
+                <RadzenRadialGaugeScaleRange From="11.5" To="28" Fill="red" Height="15" />
+            </RadzenRadialGaugeScale>
+        </RadzenRadialGauge>
+    </div>
+    <div class="col-4 centric">
+        <div class="gauge-header">
+            7 Tage
+        </div>
+        <RadzenRadialGauge Style="height: 23vh">
+            <RadzenRadialGaugeScale StartAngle="-110" EndAngle="110" Min="9" Max="20" TickPosition="GaugeTickPosition.None">
+                <RadzenRadialGaugeScalePointer Value="16.6" Length=".8" Width="6" Radius="10" ShowValue="true">
+                    <Template Context="pointer">
+                        <h1 class="pointer-value">
+                            @pointer.Value.ToString("0.00")
+                        </h1>
+                    </Template>
+                </RadzenRadialGaugeScalePointer>
+                <RadzenRadialGaugeScaleRange From="9" To="10.5" Fill="green" Height="15" />
+                <RadzenRadialGaugeScaleRange From="10.5" To="11.5" Fill="orange" Height="15" />
+                <RadzenRadialGaugeScaleRange From="11.5" To="20" Fill="red" Height="15" />
+            </RadzenRadialGaugeScale>
+        </RadzenRadialGauge>
+    </div>
+    <div class="col-4 centric">
+        <div class="gauge-header">
+            30 Tage
+        </div>
+        <RadzenRadialGauge Style="height: 23vh">
+            <RadzenRadialGaugeScale StartAngle="-110" EndAngle="110" Min="9" Max="15" TickPosition="GaugeTickPosition.None">
+                <RadzenRadialGaugeScalePointer Value="16.6" Length=".8" Width="6" Radius="10" ShowValue="true">
+                    <Template Context="pointer">
+                        <h1 class="pointer-value">
+                            @pointer.Value.ToString("0.00")
+                        </h1>
+                    </Template>
+                </RadzenRadialGaugeScalePointer>
+                <RadzenRadialGaugeScaleRange From="9" To="10.5" Fill="green" Height="15" />
+                <RadzenRadialGaugeScaleRange From="10.5" To="11.5" Fill="orange" Height="15" />
+                <RadzenRadialGaugeScaleRange From="11.5" To="15" Fill="red" Height="15" />
+            </RadzenRadialGaugeScale>
+        </RadzenRadialGauge>
+    </div>
+</div>

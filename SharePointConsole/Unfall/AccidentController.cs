@@ -45,6 +45,7 @@ namespace SharePointConsole.Unfall
 
         static void CalcData(List<AccidentData> accidents)
         {
+
             foreach (var item in accidents)
             {
                 Console.WriteLine($"{item.AccidentDate} {item.Department}");

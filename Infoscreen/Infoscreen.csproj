@@ -28,6 +28,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DbPageLibrary\DbInfoscreenLibrary.csproj" />
+    <ProjectReference Include="..\SharePointDataLibrary\SharePointDataLibrary.csproj" />
   </ItemGroup>
 
 

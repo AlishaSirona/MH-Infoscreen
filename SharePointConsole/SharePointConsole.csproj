@@ -88,5 +88,11 @@
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SharePointDataLibrary\SharePointDataLibrary.csproj">
+      <Project>{2af13ebe-e39c-4bc3-a990-9a88a4525a10}</Project>
+      <Name>SharePointDataLibrary</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

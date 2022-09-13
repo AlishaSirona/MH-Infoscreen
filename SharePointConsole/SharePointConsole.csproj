@@ -83,6 +83,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\AccidentStatistic.cs" />
+    <Compile Include="Classes\StwStatistic.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Unfall\AccidentController.cs" />

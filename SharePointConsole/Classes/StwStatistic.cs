@@ -49,6 +49,11 @@ namespace SharePointConsole.Classes
             Console.WriteLine($"Schrott {SchrottDay} {SchrottWeek} {SchrottMonth}");
             Console.WriteLine($"Sauerstoff {SauerstoffDay} {SauerstoffWeek} {SauerstoffMonth}");
             Console.WriteLine($"Power Off {PowerOffDay} {PowerOffWeek} {PowerOffMonth}");
+
+            foreach (var pair in ProductionYear)
+            {
+                Console.WriteLine($"Key: {pair.Key} Value: {pair.Value}");
+            }
         }
     }
 }

@@ -16,6 +16,8 @@ using Infoscreen.Shared;
 using MudBlazor;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Infoscreen.Data;
+using Infoscreen.JsonData;
+using Newtonsoft.Json;
 
 namespace Infoscreen.Pages;
 
@@ -31,6 +33,11 @@ public partial class Index
     {
         mudItems = ScreenData.Pages;
 
+        //string json = System.IO.File.ReadAllText(@"C:\Users\andreas.pfeifer\Documents\GitHub\MH-Infoscreen\SharePointConsole\bin\Debug\json\accident.json");
+
+        //AccidentStatistic accidentStatistic = JsonConvert.DeserializeObject<AccidentStatistic>(json)!;
+
+        //accidentStatistic.PrintDebug();
     }
 
     void CarouselChanged(int index)

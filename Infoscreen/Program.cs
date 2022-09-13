@@ -29,7 +29,6 @@ namespace Infoscreen
 
             Log.Logger = new LoggerConfiguration()
                 .Enrich.WithProperty("Program", "Infoscreen-Web")
-                .Enrich.WithProperty("Maching", System.Environment.MachineName)
                 .WriteTo.Seq("http://localhost:5341", bufferBaseFilename: Path.Join("Logs", "log"))
                 .CreateLogger();
 

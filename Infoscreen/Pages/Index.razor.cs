@@ -35,20 +35,19 @@ public partial class Index
 
     void CarouselChanged(int index)
     {
-        //if (index < ImgData.FrontList.Count)
-        //{
-        //    cycleTimer = ImgData.FrontList.Where(item => item.Index == index).First().Duration;
-        //    Console.WriteLine($"Item Front: {ImgData.FrontList.Where(item => item.Index == index).First().InternFilePath}");
-        //}
-        //else if (index >= ImgData.FrontList.Count + cntFixedPages)
-        //{
-        //    cycleTimer = ImgData.BackList.Where(item => item.Index == index - ImgData.FrontList.Count - cntFixedPages).First().Duration;
-        //    Console.WriteLine($"Item Back: {ImgData.BackList.Where(item => item.Index == index - ImgData.FrontList.Count - cntFixedPages).First().InternFilePath}");
-        //}
-        //else
-        //{
-        //    cycleTimer = new TimeSpan(0, 0, 1);
-        //    Console.WriteLine($"Item Site");
-        //}
+        int counter = 0;
+
+        foreach (var item in ScreenData.Pages)
+        {
+            if (counter == index)
+            {
+                cycleTimer = item.Duration;
+                break;
+            }
+            else
+            {
+                counter++;
+            }
+        }
     }
 }

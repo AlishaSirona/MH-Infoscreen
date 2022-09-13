@@ -27,6 +27,19 @@ namespace SharePointConsole.Classes
         public double PowerOffWeek { get; set; }
         public double PowerOffMonth { get; set; }
 
+        public Dictionary<int, double?> ProductionYear { get; set; }
+
+
+        public StwStatistic()
+        {
+            ProductionYear = new Dictionary<int, double?>();
+
+            for (int i = 1; i < 13; i++)
+            {
+                ProductionYear.Add(i, null);
+            }
+        }
+
 
         public void PrintDebug()
         {

@@ -16,7 +16,6 @@ using Infoscreen.Shared;
 using MudBlazor;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Infoscreen.Data;
-using SharePointLibrary;
 
 namespace Infoscreen.Pages;
 
@@ -32,7 +31,6 @@ public partial class Index
     {
         mudItems = ScreenData.Pages;
 
-        //SharePointSTW.GetSPLists();
     }
 
     void CarouselChanged(int index)

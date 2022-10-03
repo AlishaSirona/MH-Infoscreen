@@ -83,6 +83,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\AccidentStatistic.cs" />
+    <Compile Include="Classes\CompaniesStatistic.cs" />
     <Compile Include="Classes\StwStatistic.cs" />
     <Compile Include="Classes\VisitorStatistic.cs" />
     <Compile Include="Program.cs" />

@@ -1,0 +1,66 @@
+﻿@page "/sollwerte"
+@inject IDbContextFactory<DbInfoscreenContext> ContextFactory
+
+
+<h2>Soll-Werte</h2>
+
+
+<div class="container-fluid">
+    <div class="row my-5">
+        <div class="col-12">
+            <RadzenCard class="m-3">
+                <h3 class="h3">Filter</h3>
+                <div class="row">
+                    <div class="col-12 col-md-6 mb-2">
+                        <RadzenDropDown Placeholder="Abteilung" AllowClear="false" Data="@filterAbt" @bind-Value="@selectedAbt" />
+                    </div>
+                    <div class="col-12 col-md-6 mb-2">
+                        Jahr:
+                        <RadzenNumeric Min="0" Max="9999" ShowUpDown="false" @bind-Value="@filterYear" />
+                    </div>
+                    <div class="col-12">
+                        <RadzenButton Text="Suchen" class="w-100 m-2" Click="@ApplyFilter" />
+                    </div>
+                </div>
+            </RadzenCard>
+        </div>
+        <div class="col-12">
+            <RadzenButton Icon="add_circle_outline" Style="margin-bottom: 15px" Text="Neuer Eintrag" Click="@InsertRow" Disabled=@(dataToInsert != null) />
+
+            <RadzenDataGrid Data="@solls" TItem="SollDaten" @ref="@dataGrid" EditMode="Radzen.DataGridEditMode.Single" RowUpdate="@OnUpdateRow" RowCreate="@OnCreateRow" AllowSorting="true" AllowColumnResize="true">
+                <Columns>
+                    <RadzenDataGridColumn TItem="SollDaten" Property="Abteilung" Title="Abteilung">
+                        <EditTemplate Context="input">
+                            <RadzenDropDown Placeholder="Abteilung" Name="editAbt" AllowClear="false" Data="@filterAbt" @bind-Value="@input.Abteilung" />
+                            <RadzenRequiredValidator Component="editAbt" Text="Abteilung fehlt!" Popup="true" />
+                        </EditTemplate>
+                    </RadzenDataGridColumn>
+                    <RadzenDataGridColumn TItem="SollDaten" Property="TimeStamp" Title="Datum">
+                        <Template Context="data">
+                            @data.TimeStamp.ToString("dd.MM.yyyy")
+                        </Template>
+                        <EditTemplate Context="input">
+                            <RadzenDatePicker ShowTime="false" Min="new DateTime(DateTime.Now.Year, 1, 1)" @bind-Value="@input.TimeStamp"/>
+                        </EditTemplate>
+                    </RadzenDataGridColumn>
+                    <RadzenDataGridColumn TItem="SollDaten" Property="Value" Title="Value">
+                        <EditTemplate Context="input">
+                            <RadzenNumeric Min="0" Max="99999999" ShowUpDown="false" @bind-Value="@input.Value" />
+                        </EditTemplate>
+                    </RadzenDataGridColumn>
+
+                    <RadzenDataGridColumn TItem="SollDaten" Context="sampleBlazorModelsSampleOrder" Filterable="false" Sortable="false" TextAlign="TextAlign.Center">
+                        <Template Context="input">
+                            <RadzenButton Icon="edit" ButtonStyle="ButtonStyle.Light" class="m-1" Click="@(args => EditRow(input))" @onclick:stopPropagation="true" />
+                            <RadzenButton ButtonStyle="ButtonStyle.Danger" Icon="delete" class="m-1" Click="@(args => DeleteRow(input))" @onclick:stopPropagation="true" />
+                        </Template>
+                        <EditTemplate Context="input">
+                            <RadzenButton Icon="check" ButtonStyle="ButtonStyle.Primary" class="m-1" Click="@((args) => SaveRow(input))" />
+                            <RadzenButton Icon="close" ButtonStyle="ButtonStyle.Light" class="m-1" Click="@((args) => CancelEdit(input))" />
+                        </EditTemplate>
+                    </RadzenDataGridColumn>
+                </Columns>
+            </RadzenDataGrid>
+        </div>
+    </div>
+</div>

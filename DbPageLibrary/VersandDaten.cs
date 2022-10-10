@@ -11,6 +11,6 @@ public class VersandDaten
 {
     [Key]
     public uint Id { get; set; }
-    public DateTime Date { get; set; }
+    public DateTime? Date { get; set; } = new DateTime(DateTime.Now.Year, 1, 1);
     public double Verladen { get; set; }
 }

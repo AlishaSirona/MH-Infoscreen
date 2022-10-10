@@ -3,6 +3,7 @@ using System;
 using DbInfoscreenLibrary;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DbInfoscreenLibrary.Migrations
 {
     [DbContext(typeof(DbInfoscreenContext))]
-    partial class DbInfoscreenContextModelSnapshot : ModelSnapshot
+    [Migration("20221010111448_UpdateSoll")]
+    partial class UpdateSoll
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

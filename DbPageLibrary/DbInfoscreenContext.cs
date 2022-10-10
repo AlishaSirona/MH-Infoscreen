@@ -15,6 +15,7 @@ public class DbInfoscreenContext : DbContext
 
     public DbSet<Pages> Pages { get; set; } = null!;
     public DbSet<VersandDaten> VersandDaten { get; set; } = null!;
+    public DbSet<SollDaten> SollDaten { get; set; } = null!;
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

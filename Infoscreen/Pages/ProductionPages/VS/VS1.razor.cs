@@ -31,4 +31,55 @@ namespace Infoscreen.Pages.ProductionPages.VS;
 
 public partial class VS1
 {
+    string lastShipment = string.Empty;
+    IEnumerable<VersandDaten>? lastTenDays;
+
+    protected override async Task OnInitializedAsync()
+    {
+        lastShipment = GetLastShipment();
+        await GetLastTenDays();
+    }
+
+    async Task GetLastTenDays()
+    {
+        using var context = ContextFactory.CreateDbContext();
+
+        lastTenDays = await context.VersandDaten
+            .Where(item => item.Date >= DateTime.Now.AddDays(-11).Date && item.Date <= DateTime.Now.AddDays(-1).Date && item.Verladen != 0)
+            .OrderByDescending(item => item.Date)
+            .AsNoTracking()
+            .ToListAsync();
+    }
+
+    string GetLastShipment()
+    {
+        using var context = ContextFactory.CreateDbContext();
+
+        int _subDays;
+
+        switch (DateTime.Now.DayOfWeek)
+        {
+            case DayOfWeek.Monday:
+                _subDays = -3;
+                break;
+            case DayOfWeek.Sunday:
+                _subDays = -2;
+                break;
+            default:
+                _subDays = -1;
+                break;
+        }
+
+        var yesterdayEntry = context.VersandDaten
+            .Where(item => item.Date == DateTime.Now.AddDays(_subDays).Date)
+            .FirstOrDefault();
+
+        if (yesterdayEntry == null || yesterdayEntry.Date == null)
+            return String.Empty;
+
+        DateTime date = (DateTime)yesterdayEntry.Date;
+        string amount = yesterdayEntry.Verladen == 0 ? "Keine Verladung" : $"{yesterdayEntry.Verladen.ToString("#,##0.0")}t";
+
+        return $"{date.ToString("dddd, dd.MM.yyyy")}: {amount}";
+    }
 }

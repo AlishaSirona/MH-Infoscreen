@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DbInfoscreenLibrary", "DbPa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharePointConsole", "SharePointConsole\SharePointConsole.csproj", "{D419B265-8311-45A3-9B77-DDB6275FECD6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VersandImport", "VersandImport\VersandImport.csproj", "{BC1A556A-8ECF-42D2-B1B2-3719C19DCBC0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{D419B265-8311-45A3-9B77-DDB6275FECD6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D419B265-8311-45A3-9B77-DDB6275FECD6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D419B265-8311-45A3-9B77-DDB6275FECD6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC1A556A-8ECF-42D2-B1B2-3719C19DCBC0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC1A556A-8ECF-42D2-B1B2-3719C19DCBC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC1A556A-8ECF-42D2-B1B2-3719C19DCBC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC1A556A-8ECF-42D2-B1B2-3719C19DCBC0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

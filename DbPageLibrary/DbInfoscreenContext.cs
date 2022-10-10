@@ -14,9 +14,17 @@ public class DbInfoscreenContext : DbContext
     readonly ServerVersion serverVersion = MySqlServerVersion.AutoDetect(connectionString);
 
     public DbSet<Pages> Pages { get; set; } = null!;
+    public DbSet<VersandDaten> VersandDaten { get; set; } = null!;
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.UseMySql(connectionString, serverVersion);
+    }
+
+    protected override void OnModelCreating(ModelBuilder builder)
+    {
+        builder.Entity<VersandDaten>()
+            .HasIndex(x => x.Date)
+            .IsUnique();
     }
 }

@@ -26,13 +26,16 @@
     </style>
 
     <div class="col-12">
-        <RadzenChart class="rz-series-data-label">
+        <RadzenChart>
             <RadzenColumnSeries Data="@lastTenDays" CategoryProperty="Datum" ValueProperty="RoundedValue" Title="Letzte 10 Tage">
-                <RadzenSeriesDataLabels Visible="true" OffsetY="50"/>
+                <RadzenSeriesDataLabels Visible="true" OffsetY="50" />
             </RadzenColumnSeries>
-            
+            <RadzenLineSeries Smooth="true" Data="@lastTenDays" CategoryProperty="Datum" ValueProperty="RoundedValue" Title="Soll">
+
+            </RadzenLineSeries>
+
             <RadzenColumnOptions Radius="5" />
-            <RadzenCategoryAxis Padding="550"/>
+            <RadzenCategoryAxis Padding="550" />
             <RadzenValueAxis Min="0" Step="400">
                 <RadzenGridLines Visible="true" />
             </RadzenValueAxis>
@@ -41,6 +44,24 @@
     </div>
 
     <div class="col-12">
-        Area
+        @if (sollDaten == null)
+        {
+            <p>Loading ...</p>
+        }
+        else
+        {
+            <RadzenChart>
+                <RadzenLineSeries Smooth="true" Data="@sollDaten" CategoryProperty="TimeStamp" ValueProperty="Value" Title="Soll">
+
+                </RadzenLineSeries>
+
+                <RadzenCategoryAxis Step="TimeSpan.FromDays(31)" Formatter="@(value => ((DateTime)value).ToString("MMMM"))" />
+                <RadzenValueAxis Min="0" Max="@sollDatenMax" Step="@sollDatenStep">
+                    <RadzenGridLines Visible="true" />
+                </RadzenValueAxis>
+
+                <RadzenLegend Position="LegendPosition.Bottom"/>
+            </RadzenChart>
+        }
     </div>
 </div>

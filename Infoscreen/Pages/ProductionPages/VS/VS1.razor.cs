@@ -33,12 +33,32 @@ public partial class VS1
 {
     string lastShipment = string.Empty;
     IEnumerable<VersandDaten>? lastTenDays;
+    IEnumerable<SollDaten>? sollDaten;
+    int sollDatenMax;
+    int sollDatenStep;
 
     protected override async Task OnInitializedAsync()
     {
         lastShipment = GetLastShipment();
         await GetLastTenDays();
+        await GetSollDaten();
     }
+
+
+    async Task GetSollDaten()
+    {
+        using var context = ContextFactory.CreateDbContext();
+
+        sollDaten = await context.SollDaten
+            .Where(item => item.Abteilung == "VS" && item.TimeStamp.Year == DateTime.Now.Year)
+            .OrderBy(item => item.TimeStamp)
+            .AsNoTracking()
+            .ToListAsync();
+
+        sollDatenMax = (int)sollDaten.Last().Value;
+        sollDatenStep = sollDatenMax / 5;
+    }
+
 
     async Task GetLastTenDays()
     {
@@ -51,8 +71,6 @@ public partial class VS1
             .Take(10)
             .ToListAsync();
     }
-
-    string SetLastTenDayFormatString() => "#,##0.0";
 
     string GetLastShipment()
     {

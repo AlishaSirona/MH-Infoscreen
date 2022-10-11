@@ -14,4 +14,5 @@ public class SollDaten
     public string Abteilung { get; set; } = string.Empty;
     public DateTime TimeStamp { get; set; }
     public double Value { get; set; }
+
 }

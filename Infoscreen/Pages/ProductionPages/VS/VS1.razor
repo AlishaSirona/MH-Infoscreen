@@ -4,18 +4,35 @@
 
 
 <div class="row">
+
     <div class="col-12 centric last-shipment">
         @lastShipment
     </div>
 
+
+
+
+
+    <style>
+        .rz-series-data-label {
+            fill: white;
+            font-size: 32px;
+        }
+
+        .rz-category-axis {
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
+
     <div class="col-12">
-        <RadzenChart>
-            <RadzenColumnSeries Data="@lastTenDays" CategoryProperty="Datum" ValueProperty="Verladen" Title="Letzte 10 Tage">
-                <RadzenSeriesDataLabels Visible="true" OffsetY="50" />
+        <RadzenChart class="rz-series-data-label">
+            <RadzenColumnSeries Data="@lastTenDays" CategoryProperty="Datum" ValueProperty="RoundedValue" Title="Letzte 10 Tage">
+                <RadzenSeriesDataLabels Visible="true" OffsetY="50"/>
             </RadzenColumnSeries>
             
             <RadzenColumnOptions Radius="5" />
-            <RadzenCategoryAxis Padding="20" />
+            <RadzenCategoryAxis Padding="550"/>
             <RadzenValueAxis Min="0" Step="400">
                 <RadzenGridLines Visible="true" />
             </RadzenValueAxis>

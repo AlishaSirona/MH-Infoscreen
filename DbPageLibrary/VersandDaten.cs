@@ -15,4 +15,5 @@ public class VersandDaten
     public double Verladen { get; set; }
 
     public string Datum => Date == null ? string.Empty : ((DateTime)Date).ToString("dd.MM.yyyy");
+    public double RoundedValue => Math.Round(Verladen, 1, MidpointRounding.AwayFromZero);
 }

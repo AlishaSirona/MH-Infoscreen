@@ -45,11 +45,14 @@ public partial class VS1
         using var context = ContextFactory.CreateDbContext();
 
         lastTenDays = await context.VersandDaten
-            .Where(item => item.Date >= DateTime.Now.AddDays(-11).Date && item.Date <= DateTime.Now.AddDays(-1).Date && item.Verladen != 0)
+            .Where(item => item.Date <= DateTime.Now.AddDays(-1).Date && item.Verladen != 0)
             .OrderByDescending(item => item.Date)
             .AsNoTracking()
+            .Take(10)
             .ToListAsync();
     }
+
+    string SetLastTenDayFormatString() => "#,##0.0";
 
     string GetLastShipment()
     {
